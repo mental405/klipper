@@ -478,12 +478,12 @@ class DockableProbe:
         if self._check_distance(dist=self.detach_distance):
             self._align_to_vector(self.dock_angle)
         else:
+            #self.toolhead.manual_move(
+            #    [self.detach_position[0], self.detach_position[1], None],
+            #     self.travel_speed)
             self.toolhead.manual_move(
-                [self.detach_position[0], self.detach_position[1], None],
-                 self.travel_speed)
-        self.toolhead.manual_move(
-            [self.dock_position[0], self.dock_position[1], None],
-             self.attach_speed)
+                [self.dock_position[0], self.dock_position[1], None],
+                 self.attach_speed)
         self.detach_gcode.run_gcode_from_command()
         self.toolhead.manual_move(
             [self.detach_position[0], self.detach_position[1], None],
@@ -526,11 +526,11 @@ class DockableProbe:
             # Move out of the dock before attempting to home Z
             if any(a in ['x','y'] for a in homing_axes):
                 self._force_z_hop()
-                if 'xy' in self._last_homed:
-                    if self._check_distance(self.dock_position,
-                                            self.approach_distance):
-                        self._align_to_vector(self.dock_angle)
-                        self._move_to_vector(self.dock_angle)
+#                if 'xy' in self._last_homed:
+#                    if self._check_distance(self.dock_position,
+#                                            self.approach_distance):
+#                        self._align_to_vector(self.dock_angle)
+#                        self._move_to_vector(self.dock_angle)
             if 'z' in homing_axes:
                 if self.is_z_endstop:
                     self._align_z()
