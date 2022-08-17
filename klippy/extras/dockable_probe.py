@@ -92,7 +92,7 @@ class ProbeState:
         gcode = self.printer.lookup_object('gcode')
         gcode.register_command('GET_PROBE_STATUS',
                                 self.cmd_GET_PROBE_STATUS,
-                                self.cmd_GET_PROBE_STATUS_help)
+                                desc=self.cmd_GET_PROBE_STATUS_help)
 
         if not any([self.check_open_attach,
                     self.probe_sense_pin,
@@ -247,9 +247,11 @@ class DockableProbe:
 
         #Gcode Commands
         self.gcode.register_command('ATTACH_PROBE',
-                                    self.cmd_ATTACH_PROBE)
+                                    self.cmd_ATTACH_PROBE,
+                                    desc='Attach probe to toolhead')
         self.gcode.register_command('DETACH_PROBE',
-                                    self.cmd_DETACH_PROBE)
+                                    self.cmd_DETACH_PROBE,
+                                    desc='Detach/dock probe')
 
         #Event Handlers
         self.printer.register_event_handler('klippy:connect',
