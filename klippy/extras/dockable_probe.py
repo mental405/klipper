@@ -92,7 +92,7 @@ class ProbeState:
         gcode = self.printer.lookup_object('gcode')
         gcode.register_command('GET_PROBE_STATUS',
                                 self.cmd_GET_PROBE_STATUS,
-                                self.cmd_GET_PROBE_STATUS_help)
+                                desc=self.cmd_GET_PROBE_STATUS_help)
 
         if not any([self.check_open_attach,
                     self.probe_sense_pin,
@@ -247,9 +247,11 @@ class DockableProbe:
 
         #Gcode Commands
         self.gcode.register_command('ATTACH_PROBE',
-                                    self.cmd_ATTACH_PROBE)
+                                    self.cmd_ATTACH_PROBE,
+                                    desc=self.cmd_ATTACH_PROBE_help)
         self.gcode.register_command('DETACH_PROBE',
-                                    self.cmd_DETACH_PROBE)
+                                    self.cmd_DETACH_PROBE,
+                                    desc=self.cmd_DETACH_PROBE_help)
 
         #Event Handlers
         self.printer.register_event_handler('klippy:connect',
@@ -302,9 +304,11 @@ class DockableProbe:
                         else:
                             self.z_homes_positive = False
             self.safe_z_position = home_xy
+    cmd_ATTACH_PROBE_help = "Attach Probe"
     def cmd_ATTACH_PROBE(self, gcmd):
         return_pos = self.toolhead.get_position()
         self.attach_probe(return_pos)
+    cmd_DETACH_PROBE_help = "Detach Probe"
     def cmd_DETACH_PROBE(self, gcmd):
         return_pos = self.toolhead.get_position()
         self.detach_probe(return_pos)
