@@ -216,7 +216,6 @@ class DockableProbe:
         pin = config.get('pin')
         pin_params = ppins.lookup_pin(pin, can_invert=True, can_pullup=True)
         mcu = pin_params['chip']
-        mcu.register_config_callback(self._build_config)
         self.mcu_endstop = mcu.setup_pin('endstop', pin_params)
 
         # Wrappers
@@ -252,6 +251,8 @@ class DockableProbe:
                                     self.cmd_DETACH_PROBE)
 
         #Event Handlers
+        self.printer.register_event_handler('klippy:mcu_identify',
+                                            self._build_config)
         self.printer.register_event_handler('klippy:connect',
                                             self._handle_connect)
         self.printer.register_event_handler('klippy:ready',
